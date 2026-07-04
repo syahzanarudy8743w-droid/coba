@@ -85,6 +85,46 @@
             margin: 10px;
             border: 3px solid #b5835a;
         }
+/* Hitung Mundur (Countdown) */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .cd-box {
+            background-color: #f5ece4;
+            padding: 10px;
+            border-radius: 10px;
+            min-width: 65px;
+            border: 1px solid #e2cbb8;
+        }
+        .cd-box span {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #b5835a;
+        }
+        .cd-box small {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Galeri Foto */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 kolom berdampingan */
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .gallery-item {
+            width: 100%;
+            height: 200px; /* Tinggi foto seragam */
+            object-fit: cover; /* Agar foto tidak gepeng */
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
@@ -97,7 +137,36 @@
         <br>
         <button class="btn" onclick="bukaUndangan()">Buka Undangan</button>
     </section>
+// LOGIKA HITUNG MUNDUR (COUNTDOWN)
+        // Atur tanggal acara di sini (Format: Tahun, Bulan (0-11), Tanggal, Jam, Menit)
+        // Catatan: Bulan dalam JavaScript dimulai dari 0 (0 = Jan, 1 = Feb... 7 = Agustus)
+        const countDownDate = new Date(2026, 7, 20, 8, 0, 0).getTime();
 
+        const x = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+
+            // Perhitungan waktu
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Menampilkan hasil ke elemen HTML (tambah angka 0 di depan jika di bawah 10)
+            document.getElementById("days").innerHTML = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+
+            // Jika waktu sudah lewat
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("days").innerHTML = "00";
+                document.getElementById("hours").innerHTML = "00";
+                document.getElementById("minutes").innerHTML = "00";
+                document.getElementById("seconds").innerHTML = "00";
+            }
+        }, 1000); // Diperbarui setiap 1 detik
     <!-- BAGIAN KONTEN UTAMA -->
     <div class="container" id="main-content">
         
@@ -120,7 +189,29 @@
             <h3>Juliet Capulet</h3>
             <p>Putri dari Bapak Fulan & Ibu Fulanah</p>
         </section>
+<!-- BAGIAN BARU: HITUNG MUNDUR -->
+        <section id="countdown-section">
+            <h2>Menuju Hari Bahagia</h2>
+            <p>Waktu terus berjalan, menuju hari yang kami nantikan.</p>
+            <div class="countdown">
+                <div class="cd-box"><span id="days">00</span><small>Hari</small></div>
+                <div class="cd-box"><span id="hours">00</span><small>Jam</small></div>
+                <div class="cd-box"><span id="minutes">00</span><small>Menit</small></div>
+                <div class="cd-box"><span id="seconds">00</span><small>Detik</small></div>
+            </div>
+        </section>
 
+        <!-- BAGIAN BARU: GALERI FOTO -->
+        <section id="gallery">
+            <h2>Galeri Kami</h2>
+            <div class="gallery-grid">
+                <!-- Ganti link gambar di bawah dengan link fotomu yang sudah dikompres -->
+                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=500&q=80" alt="Galeri 1" class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=500&q=80" alt="Galeri 2" class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=500&q=80" alt="Galeri 3" class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=500&q=80" alt="Galeri 4" class="gallery-item">
+            </div>
+        </section>
         <!-- BAGIAN 4: DETAIL ACARA -->
         <section id="event">
             <h2>Detail Acara</h2>
