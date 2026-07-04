@@ -125,6 +125,57 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
+        /* Kado Digital */
+        .gift-box {
+            background-color: #fefcfb;
+            border: 1px dashed #b5835a;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+            text-align: center;
+        }
+        .gift-box h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .rek-number {
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #b5835a;
+            margin: 15px 0;
+        }
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.8rem;
+        }
+
+        /* Notifikasi (Toast) saat tombol Salin diklik */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 20px;
+            padding: 12px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            transition: opacity 0.3s, bottom 0.3s;
+            opacity: 0;
+        }
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px; /* Muncul sedikit ke atas */
+        }
     </style>
 </head>
 <body>
@@ -204,6 +255,30 @@
             <a href="LINK_GOOGLE_FORM_ATAU_WA_DISINI" target="_blank" class="btn">Konfirmasi Kehadiran</a>
         </section>
 
+        <!-- BAGIAN BARU: KADO DIGITAL -->
+        <section id="gift">
+            <h2>Kado Digital</h2>
+            <p>Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun, jika Anda ingin memberikan tanda kasih, dapat melalui fitur di bawah ini:</p>
+            
+            <!-- Kotak Rekening 1 -->
+            <div class="gift-box">
+                <h4>Bank BCA</h4>
+                <p>a.n. Romeo Montague</p>
+                <div class="rek-number" id="rek-1">1234567890</div>
+                <button class="btn btn-small" onclick="salinRekening('rek-1')">Salin Nomor Rekening</button>
+            </div>
+
+            <!-- Kotak Rekening 2 -->
+            <div class="gift-box">
+                <h4>Bank Mandiri</h4>
+                <p>a.n. Juliet Capulet</p>
+                <div class="rek-number" id="rek-2">0987654321</div>
+                <button class="btn btn-small" onclick="salinRekening('rek-2')">Salin Nomor Rekening</button>
+            </div>
+            
+            <!-- Elemen Notifikasi (Tersembunyi) -->
+            <div id="toast">Nomor Rekening Berhasil Disalin!</div>
+        </section>
         <!-- BAGIAN 6: PENUTUP -->
         <section id="closing">
             <p>Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.</p>
@@ -261,6 +336,25 @@
             document.getElementById('bg-music').play();
             // Scroll otomatis ke atas
             window.scrollTo(0, 0);
+        }
+        // FUNGSI SALIN NOMOR REKENING
+        function salinRekening(idElemen) {
+            // Mengambil angka/teks dari elemen
+            const nomorRekening = document.getElementById(idElemen).innerText;
+            
+            // Menyalin ke clipboard (papan klip) HP/Laptop
+            navigator.clipboard.writeText(nomorRekening).then(function() {
+                // Memunculkan Notifikasi (Toast)
+                const toast = document.getElementById("toast");
+                toast.classList.add("show");
+                
+                // Menghilangkan notifikasi otomatis setelah 3 detik
+                setTimeout(function(){ 
+                    toast.classList.remove("show"); 
+                }, 3000);
+            }).catch(function(err) {
+                alert('Gagal menyalin teks. Silakan salin manual.');
+            });
         }
     </script>
 </body>
